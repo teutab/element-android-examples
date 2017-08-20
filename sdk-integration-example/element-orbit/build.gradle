@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('element-orbit-release-2017.08.17.30.aar'))

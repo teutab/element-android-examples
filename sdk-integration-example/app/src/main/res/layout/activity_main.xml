@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/activity_main"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context="com.element.authentication.MainActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/buttonPanel"/>
+
+    <LinearLayout
+        android:id="@+id/buttonPanel"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:weightSum="2"
+        android:divider="@android:drawable/divider_horizontal_dark"
+        android:showDividers="middle"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/newUser"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="clickOnNewUser"
+            android:text="Enroll new user"
+            android:textColor="#ededed"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+            android:background="#aaaaaa"/>
+
+        <Button
+            android:id="@+id/trainModel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="clickOnTrainModel"
+            android:text="Complete enrollment"
+            android:textColor="#ededed"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+            android:background="#aaaaaa"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/confirm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/blue_gradient_bg" >
+
+        <TextView
+            android:id="@+id/confirmText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:textColor="@android:color/white"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:textIsSelectable="false" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/confirmTextExtra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/confirmText"
+            android:padding="15dp"
+            android:gravity="center_horizontal"
+            android:textColor="#ddd"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+            android:textIsSelectable="false" />
+
+        <ImageView
+            android:id="@+id/confirmImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_above="@+id/confirmText"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="75dp"
+            android:src="@drawable/icon_check" />
+
+        <Button
+            style="@style/whiteTextButton"
+            android:id="@+id/confirmButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/confirmText"
+            android:layout_marginTop="100dp"
+            android:padding="50dp"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:textIsSelectable="false"
+            android:text="OK"
+            android:onClick="clickOnConfirmButtons" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
