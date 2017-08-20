@@ -2,7 +2,7 @@ _Element SDK Library_ is a standalone Android application that enables the creat
 
 ### Setup with Android Studio
 #### Import _Element Orbit_
-1. Download the latest _[element-orbit-release.aar](https://github.com/Element1/element-android-examples/tree/master/sdk-integration-example/element-orbit/element-orbit-release-2017.08.17.30.aar)_ file.
+1. Download the latest _[element-orbit-release.aar](https://github.com/Element1/element-android-examples/tree/master/sdk-integration-example/element-orbit)_ file.
 2. Open your project in Android Studio.
 3. On the top menu bar, click _File->New->New Module->Import .arr/.jar libraries->Next_.
 4. In the next window, choose the path to _element-orbit.aar_ in the _File Name_ field, and type in _element-orbit_ in the _Subproject name_ field.
