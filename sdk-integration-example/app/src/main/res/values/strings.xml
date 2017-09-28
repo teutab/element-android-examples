@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Element SDK Integration Example</string>
+    <string name="app_name">Element Palm SDK Integration Example</string>
+    <string name="portal_package">com.element.portal</string>
 </resources>

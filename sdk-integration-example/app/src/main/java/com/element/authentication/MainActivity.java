@@ -1,6 +1,7 @@
 package com.element.authentication;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.element.orbit.Authentication;
+import com.element.orbit.Config;
+import com.element.orbit.Message;
 import com.element.orbit.OrbitListener;
 import com.element.orbit.OrbitService;
 import com.element.orbit.RequestManager;
@@ -28,8 +31,6 @@ public class MainActivity extends AppCompatActivity implements OrbitListener {
 
     private RequestManager requestManager;
 
-    private RecyclerView recyclerView;
-
     private MyRecyclerAdapter myRecyclerAdapter;
 
     @Override
@@ -40,12 +41,17 @@ public class MainActivity extends AppCompatActivity implements OrbitListener {
         confirm = findViewById(R.id.confirm);
 
         requestManager = new RequestManager(MainActivity.this);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         myRecyclerAdapter = new MyRecyclerAdapter();
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(myRecyclerAdapter);
 
         OrbitService.registerCallback(this);
+
+        Config config = new Config();
+        config.isDirectAccountCreation = true;
+        requestManager.updateConfig(config);
     }
 
     @Override
@@ -132,6 +138,16 @@ public class MainActivity extends AppCompatActivity implements OrbitListener {
                     clickOnUserDataRow(userData);
                 }
             });
+            myViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    requestManager.deleteUser(userData);
+                    userDataList.remove(userData);
+                    myRecyclerAdapter.notifyDataSetChanged();
+                    toast("removed, " + userData.fullName());
+                    return true;
+                }
+            });
         }
 
         @Override
@@ -149,26 +165,32 @@ public class MainActivity extends AppCompatActivity implements OrbitListener {
         MyViewHolder(View view) {
             super(view);
             itemView = view;
-            name = (TextView) view.findViewById(R.id.name);
-            status = (TextView) view.findViewById(R.id.status);
+            name = view.findViewById(R.id.name);
+            status = view.findViewById(R.id.status);
         }
     }
 
     @Override
-    public void onAllUserData(List<UserData> userDataList) {
+    public void onAllUserData(@NonNull List<UserData> userDataList) {
         myRecyclerAdapter.addAll(userDataList);
     }
 
     @Override
-    public void onUpdatedUserData(HashMap<String, UserData> userDataMap) {
+    public void onUpdatedUserData(@NonNull HashMap<String, UserData> userDataMap) {
         myRecyclerAdapter.update(userDataMap);
     }
 
     @Override
-    public void onAuthenticated(Authentication authentication) {
+    public void onUpdatedConfig(@NonNull Config config) {
+        String portal = getString(R.string.portal_package);
+        toast(portal + " Ver: " + config.sdkVersion);
+    }
+
+    @Override
+    public void onAuthenticated(@NonNull Authentication authentication) {
         int resultCode = authentication.resultCode;
         if (resultCode == Authentication.CODE_INVALID_PALM_SIZE || resultCode == Authentication.CODE_INTERNAL_ERROR) {
-            onMessage(authentication.message);
+            toast(authentication.message);
             return;
         }
 
@@ -190,7 +212,13 @@ public class MainActivity extends AppCompatActivity implements OrbitListener {
     }
 
     @Override
-    public void onMessage(String toastMessage) {
-        Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_LONG).show();
+    public void onMessage(@NonNull Message message) {
+        toast(message.text);
+    }
+
+    private void toast(String message) {
+        if (!TextUtils.isEmpty(message)) {
+            Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
+        }
     }
 }
